@@ -1,0 +1,16 @@
+{
+    "name": "sherpa/trail",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sherpa\\Trail\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "belicfr",
+            "email": "96206878+belicfr@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
