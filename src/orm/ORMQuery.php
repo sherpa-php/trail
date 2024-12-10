@@ -2,20 +2,13 @@
 
 namespace Sherpa\Trail\orm;
 
-trait CRUD
+use Sherpa\Db\database\Query;
+
+class ORMQuery extends Query
 {
     /** Default columns selection if none is provided. */
     private const array DEFAULT_COLUMNS = ["*"];
 
     private array $publicData = [];
     private array $hiddenData = [];
-
-    public static function get(?array $columns = null): self
-    {
-        $columns = $columns ?? self::DEFAULT_COLUMNS;
-
-        $object = new self();
-
-        return $object;
-    }
 }
