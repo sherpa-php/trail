@@ -5,6 +5,12 @@ namespace Sherpa\Trail\orm;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
 
+/**
+ * ORM Query main class.
+ * <p>
+ *     Allows to make query from model class using Sherpa ORM.
+ * </p>
+ */
 class ORMQuery extends Query
 {
     /** Default columns selection if none is provided. */
