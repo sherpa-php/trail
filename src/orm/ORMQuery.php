@@ -20,6 +20,17 @@ class ORMQuery extends Query
     private array $hiddenData = [];
 
     private array $relationships = [];
+
+    public function __construct(
+        string $table,
+        array $publicData,
+        array $hiddenData)
+    {
+        parent::__construct($table);
+
+        $this->publicData = $publicData;
+        $this->hiddenData = $hiddenData;
+    }
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
