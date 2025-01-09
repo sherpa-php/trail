@@ -56,9 +56,16 @@ class ORMQuery extends Query
         $sql = $this->sql();
         $parameters = $this->parameters;
 
-        return json_decode(json_encode(DB::run($sql, $parameters)));
-    }
+        $rows = DB::run($sql, $parameters);
 
+        // Field is hidden by default
+        $filteredRows = array_map(function ($row)
+        {
+            return array_intersect_key($row, array_flip($this->publicData));
+        }, $rows);
+
+        return json_decode(json_encode($filteredRows));
+    }
     public function first(array $columns = ["*"]): ?object
     {
         return $this->get($columns)[0] ?? null;
