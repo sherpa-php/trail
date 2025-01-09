@@ -31,6 +31,26 @@ class ORMQuery extends Query
         $this->publicData = $publicData;
         $this->hiddenData = $hiddenData;
     }
+
+    /**
+     * Use a defined relationship.
+     *
+     * @param array|string $rels
+     * @return $this
+     */
+    public function rel(array|string $rels): self
+    {
+        if (is_string($rels))
+        {
+            $this->relationships[] = $rels;
+        }
+        else
+        {
+            $this->relationships = array_merge($this->relationships, $rels);
+        }
+
+        return $this;
+    }
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
