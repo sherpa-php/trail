@@ -51,6 +51,14 @@ class ORMQuery extends Query
 
         return $this;
     }
+
+    /**
+     * Get query's result's rows as array of objects.
+     *
+     * @param array $columns (optional) not hidden columns to return;
+     *                       by default, all not hidden columns are returned
+     * @return array
+     */
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
@@ -66,11 +74,26 @@ class ORMQuery extends Query
 
         return json_decode(json_encode($filteredRows));
     }
+
+    /**
+     * Get first row from query's result's rows array.
+     *
+     * @param array $columns (optional) not hidden columns to return;
+     *                       by default, all not hidden columns are returned
+     * @return object|null First row if exists; else NULL
+     */
     public function first(array $columns = ["*"]): ?object
     {
         return $this->get($columns)[0] ?? null;
     }
 
+    /**
+     * Get last row from query's result's rows array.
+     *
+     * @param array $columns (optional) not hidden columns to return;
+     *                       by default, all not hidden columns are returned
+     * @return object|null Last row if exists; else NULL
+     */
     public function last(array $columns = ["*"]): ?object
     {
         $rows = $this->get($columns);
@@ -78,6 +101,16 @@ class ORMQuery extends Query
         return array_pop($rows);
     }
 
+    /**
+     * Get row using its primary key (id).
+     *
+     * @param mixed $id Primary key value
+     * @param array $columns (optional) not hidden columns to return;
+     *                       by default, all not hidden columns are returned
+     * @param string $idColumn (optional) Primary key column's name;
+     *                         by default, "id"
+     * @return object|null First row if exists; else NULL
+     */
     public function find(mixed $id, array $columns = ["*"], string $idColumn = "id"): ?object
     {
         $this->where($idColumn, $id);
