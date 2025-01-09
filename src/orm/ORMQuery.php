@@ -19,6 +19,7 @@ class ORMQuery extends Query
     private array $publicData = [];
     private array $hiddenData = [];
 
+    private array $relationships = [];
     public function get(array $columns = ["*"]): array
     {
         $sql = $this->sql();
