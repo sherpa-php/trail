@@ -16,18 +16,21 @@ class ORMQuery extends Query
     /** Default columns selection if none is provided. */
     private const array DEFAULT_COLUMNS = ["*"];
 
+    private string $model;
+
     private array $publicData = [];
     private array $hiddenData = [];
 
     private array $relationships = [];
 
     public function __construct(
-        string $table,
+        string $model,
         array $publicData,
         array $hiddenData)
     {
-        parent::__construct($table);
+        parent::__construct($model::table());
 
+        $this->model = $model;
         $this->publicData = $publicData;
         $this->hiddenData = $hiddenData;
     }
@@ -69,10 +72,11 @@ class ORMQuery extends Query
         // Field is hidden by default
         $filteredRows = array_map(function ($row)
         {
-            return array_intersect_key($row, array_flip($this->publicData));
+            return new $this->model(
+                array_intersect_key($row, array_flip($this->publicData)));
         }, $rows);
 
-        return json_decode(json_encode($filteredRows));
+        return $filteredRows;
     }
 
     /**
