@@ -19,4 +19,14 @@ trait Relationships
                       ->where("id", $fk)
                       ->toRelationshipQuery(Relationship::BELONGS_TO);
     }
+
+    public static function makeHasMany(
+        ?int $fk,
+        string $fkName,
+        string $target): ORMRelationshipQuery
+    {
+        return $target::query()
+                      ->where($fkName, $fk)
+                      ->toRelationshipQuery(Relationship::HAS_MANY);
+    }
 }
