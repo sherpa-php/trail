@@ -23,6 +23,8 @@ class ORMRelationshipQuery extends ORMQuery
         Relationship $relationship)
     {
         parent::__construct($model, $publicData, $hiddenData);
+
+        $this->relationship = $relationship;
     }
 
     /**
