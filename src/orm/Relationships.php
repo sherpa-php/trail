@@ -17,6 +17,6 @@ trait Relationships
     {
         return $target::query()
                       ->where("id", $fk)
-                      ->toRelationshipQuery();
+                      ->toRelationshipQuery(Relationship::BELONGS_TO);
     }
 }
