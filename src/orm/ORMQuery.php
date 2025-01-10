@@ -77,18 +77,18 @@ class ORMQuery extends Query
 
             $relationships = [];
 
+            $rootData = array_intersect_key(
+                $row, array_flip($this->publicData));
+
+            $modelObject->data
+                = json_decode(json_encode($rootData));
+
             foreach ($this->relationships as $relationship)
             {
-                $relationships[$relationship]
-                    = $modelObject->$relationship();
+                $modelObject->data->$relationship
+                    = $modelObject->$relationship()
+                                  ->prepareResult();
             }
-
-            $data = array_merge(
-                array_intersect_key($row, array_flip($this->publicData)),
-                $relationships
-            );
-
-            $modelObject->data = json_decode(json_encode($data));
 
             return $modelObject;
         }, $rows);
