@@ -13,7 +13,7 @@ trait Relationships
 {
     public static function makeBelongsTo(
         int $fk,
-        string $target): ORMQuery
+        string $target): ORMRelationshipQuery
     {
         return $target::query()
                       ->where("id", $fk);
