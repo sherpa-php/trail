@@ -85,7 +85,8 @@ class ORMQuery extends Query
             {
                 $modelObject->data->$relationship
                     = $modelObject->$relationship()
-                                  ->prepareResult();
+                                  ->prepareResult()
+                                  ->data;
             }
 
             return $modelObject;
