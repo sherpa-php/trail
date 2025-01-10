@@ -39,7 +39,8 @@ class ORMRelationshipQuery extends ORMQuery
      */
     public function prepareResult(): mixed
     {
-        if (Relationship::BELONGS_TO || Relationship::HAS_ONE)
+        if ($this->relationship === Relationship::BELONGS_TO
+            || $this->relationship === Relationship::HAS_ONE)
         {
             return $this->first();
         }
