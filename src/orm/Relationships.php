@@ -12,10 +12,11 @@ namespace Sherpa\Trail\orm;
 trait Relationships
 {
     public static function makeBelongsTo(
-        int $fk,
+        ?int $fk,
         string $target): ORMRelationshipQuery
     {
         return $target::query()
-                      ->where("id", $fk);
+                      ->where("id", $fk)
+                      ->toRelationshipQuery();
     }
 }
