@@ -138,4 +138,25 @@ class ORMQuery extends Query
 
         return $this->first($columns);
     }
+
+
+    /*
+     * Conversions
+     */
+
+    /**
+     * Convert as ORMRelationshipQuery class object.
+     *
+     * @param Relationship $relationship Relationship type
+     * @return ORMRelationshipQuery
+     */
+    public function toRelationshipQuery(Relationship $relationship): ORMRelationshipQuery
+    {
+        return new ORMRelationshipQuery(
+            $this->model,
+            $this->publicData,
+            $this->hiddenData,
+            $relationship
+        );
+    }
 }
