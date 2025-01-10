@@ -2,6 +2,7 @@
 
 namespace Sherpa\Trail\orm;
 
+use Sherpa\Core\models\Model;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
 
@@ -73,7 +74,10 @@ class ORMQuery extends Query
         $filteredRows = array_map(function ($row)
         {
             return new $this->model(
-                array_intersect_key($row, array_flip($this->publicData)));
+                json_decode(json_encode(
+                        array_intersect_key($row, array_flip($this->publicData)))
+                )
+            );
         }, $rows);
 
         return $filteredRows;
@@ -86,7 +90,7 @@ class ORMQuery extends Query
      *                       by default, all not hidden columns are returned
      * @return object|null First row if exists; else NULL
      */
-    public function first(array $columns = ["*"]): ?object
+    public function first(array $columns = ["*"]): mixed
     {
         return $this->get($columns)[0] ?? null;
     }
@@ -98,7 +102,7 @@ class ORMQuery extends Query
      *                       by default, all not hidden columns are returned
      * @return object|null Last row if exists; else NULL
      */
-    public function last(array $columns = ["*"]): ?object
+    public function last(array $columns = ["*"]): mixed
     {
         $rows = $this->get($columns);
 
