@@ -15,7 +15,7 @@ trait Relationships
         int $fk,
         string $target): ORMQuery
     {
-        return $target::use()
+        return $target::query()
                       ->where("id", $fk);
     }
 }
