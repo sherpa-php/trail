@@ -75,8 +75,6 @@ class ORMQuery extends Query
         {
             $modelObject = new $this->model();
 
-            $relationships = [];
-
             $rootData = array_intersect_key(
                 $row, array_flip($this->publicData));
 
