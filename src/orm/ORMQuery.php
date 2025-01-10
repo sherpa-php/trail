@@ -42,7 +42,7 @@ class ORMQuery extends Query
      * @param array|string $rels
      * @return $this
      */
-    public function rel(array|string $rels): self
+    public function use(array|string $rels): self
     {
         if (is_string($rels))
         {
