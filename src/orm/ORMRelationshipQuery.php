@@ -44,11 +44,18 @@ class ORMRelationshipQuery extends ORMQuery
         if ($this->relationship === Relationship::BELONGS_TO
             || $this->relationship === Relationship::HAS_ONE)
         {
-            return $this->first();
+            return $this
+                ->first()
+                ->data;
         }
         else
         {
-            return $this->get();
+            $result = $this->get();
+
+            return array_map(function ($row)
+            {
+                return $row->data;
+            }, $result);
         }
     }
 }
