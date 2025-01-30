@@ -2,6 +2,7 @@
 
 namespace Sherpa\Trail\orm;
 
+use Sherpa\Core\exceptions\database\RelationshipDoesNotExistOnModelException;
 use Sherpa\Core\models\Model;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
@@ -41,15 +42,31 @@ class ORMQuery extends Query
      *
      * @param array|string $rels
      * @return $this
+     * @throws RelationshipDoesNotExistOnModelException
      */
     public function use(array|string $rels): self
     {
         if (is_string($rels))
         {
+            if (!method_exists($this->model, $rels))
+            {
+                throw new RelationshipDoesNotExistOnModelException(
+                    $rels, $this->model);
+            }
+
             $this->relationships[] = $rels;
         }
         else
         {
+            foreach ($rels as $rel)
+            {
+                if (!method_exists($this->model, $rel))
+                {
+                    throw new RelationshipDoesNotExistOnModelException(
+                        $rel, $this->model);
+                }
+            }
+
             $this->relationships = array_merge($this->relationships, $rels);
         }
 
@@ -71,7 +88,7 @@ class ORMQuery extends Query
         $rows = DB::run($sql, $parameters);
 
         // Field is hidden by default
-        $filteredRows = array_map(function ($row)
+        return array_map(function ($row)
         {
             $modelObject = new $this->model();
 
@@ -90,8 +107,6 @@ class ORMQuery extends Query
 
             return $modelObject;
         }, $rows);
-
-        return $filteredRows;
     }
 
     /**
@@ -138,15 +153,12 @@ class ORMQuery extends Query
     }
 
 
-    /*
-     * Conversions
-     */
-
     /**
      * Convert as ORMRelationshipQuery class object.
      *
      * @param Relationship $relationship Relationship type
      * @return ORMRelationshipQuery
+     * @see ORMRelationshipQuery
      */
     public function toRelationshipQuery(Relationship $relationship): ORMRelationshipQuery
     {
