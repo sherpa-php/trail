@@ -2,6 +2,7 @@
 
 namespace Sherpa\Trail\orm;
 
+use Sherpa\Core\exceptions\database\InvalidRelationshipException;
 use Sherpa\Core\models\Model;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
@@ -38,24 +39,27 @@ class ORMRelationshipQuery extends ORMQuery
      * </ul>
      *
      * @return mixed Prepared result
+     * @throws InvalidRelationshipException
      */
     public function prepareResult(): mixed
     {
-        if ($this->relationship === Relationship::BELONGS_TO
-            || $this->relationship === Relationship::HAS_ONE)
-        {
-            return $this
-                ->first()
-                ->data;
-        }
-        else
-        {
-            $result = $this->get();
+        $result = $this->get();
 
-            return array_map(function ($row)
-            {
-                return $row->data;
-            }, $result);
-        }
+        return match ($this->relationship)
+        {
+            Relationship::BELONGS_TO,
+            Relationship::HAS_ONE => $this
+                ->first()
+                ->data,
+
+            Relationship::HAS_MANY,
+            Relationship::MANY_TO_MANY => array_map(function ($row)
+                {
+                    return $row->data;
+                }, $result),
+
+            default => throw new InvalidRelationshipException(
+                $this->relationship),
+        };
     }
 }
