@@ -59,9 +59,5 @@ trait Relationships
         }
 
         return $query->toRelationshipQuery(Relationship::MANY_TO_MANY);
-
-//        return $target::query()
-//                      ->where("id", $pivot->data->$rightFkName)
-//                      ->toRelationshipQuery();
     }
 }
