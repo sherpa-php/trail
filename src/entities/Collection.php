@@ -39,4 +39,15 @@ class Collection
 
         return array_pop($clone);
     }
+
+    /**
+     * @return array Prepared array for sharing to client
+     */
+    public function prepare(): array
+    {
+        return array_map(function ($model)
+        {
+            return $model->toArray();
+        }, $this->models);
+    }
 }
