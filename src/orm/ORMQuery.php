@@ -152,6 +152,11 @@ class ORMQuery extends Query
         return $this->first($columns);
     }
 
+    public function update(array $attributes): void
+    {
+        $this->update($attributes);
+    }
+
 
     /**
      * Convert as ORMRelationshipQuery class object.
