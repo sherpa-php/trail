@@ -163,11 +163,23 @@ class ORMQuery extends Query
      */
     public function toRelationshipQuery(Relationship $relationship): ORMRelationshipQuery
     {
-        return new ORMRelationshipQuery(
+        $relQuery = new ORMRelationshipQuery(
             $this->model,
             $this->publicData,
             $this->hiddenData,
             $relationship
         );
+
+        $relQuery->columns = $this->columns;
+        $relQuery->parameters = $this->parameters;
+        $relQuery->conditions = $this->conditions;
+        $relQuery->orderBy = $this->orderBy;
+        $relQuery->having = $this->having;
+        $relQuery->groupBy = $this->groupBy;
+        $relQuery->joins = $this->joins;
+        $relQuery->limit = $this->limit;
+        $relQuery->offset = $this->offset;
+
+        return $relQuery;
     }
 }
