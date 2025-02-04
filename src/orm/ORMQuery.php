@@ -6,6 +6,7 @@ use Sherpa\Core\exceptions\database\RelationshipDoesNotExistOnModelException;
 use Sherpa\Core\models\Model;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
+use Sherpa\Trail\entities\Collection;
 
 /**
  * ORM Query main class.
@@ -80,7 +81,7 @@ class ORMQuery extends Query
      *                       by default, all not hidden columns are returned
      * @return array
      */
-    public function get(array $columns = ["*"]): array
+    public function get(array $columns = ["*"]): Collection
     {
         $sql = $this->sql();
         $parameters = $this->parameters;
@@ -88,7 +89,7 @@ class ORMQuery extends Query
         $rows = DB::run($sql, $parameters);
 
         // Field is hidden by default
-        return array_map(function ($row)
+        $result = array_map(function ($row)
         {
             $public = array_intersect_key(
                 $row, array_flip($this->publicData));
@@ -107,6 +108,8 @@ class ORMQuery extends Query
 
             return $modelObject;
         }, $rows);
+
+        return new Collection($result);
     }
 
     /**
@@ -118,7 +121,7 @@ class ORMQuery extends Query
      */
     public function first(array $columns = ["*"]): mixed
     {
-        return $this->get($columns)[0] ?? null;
+        return $this->get($columns)->first();
     }
 
     /**
@@ -130,9 +133,7 @@ class ORMQuery extends Query
      */
     public function last(array $columns = ["*"]): mixed
     {
-        $rows = $this->get($columns);
-
-        return array_pop($rows);
+        return $this->get($columns)->last();
     }
 
     /**
