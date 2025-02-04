@@ -48,9 +48,8 @@ class ORMRelationshipQuery extends ORMQuery
         return match ($this->relationship)
         {
             Relationship::BELONGS_TO,
-            Relationship::HAS_ONE => $this
-                ->first()
-                ->data,
+            Relationship::HAS_ONE => $result->first()
+                ?->data,
 
             Relationship::HAS_MANY,
             Relationship::MANY_TO_MANY => array_map(function ($row)
