@@ -2,6 +2,15 @@
 
 namespace Sherpa\Trail\entities;
 
+/**
+ * Sherpa models collection class.
+ * <p>
+ *     To use ONLY to contain models instances.
+ * </p>
+ * <p>
+ *     A collection cannot be modified.
+ * </p>
+ */
 class Collection
 {
     public private(set) array $models;
