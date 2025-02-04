@@ -90,13 +90,13 @@ class ORMQuery extends Query
         // Field is hidden by default
         return array_map(function ($row)
         {
-            $modelObject = new $this->model();
-
-            $rootData = array_intersect_key(
+            $public = array_intersect_key(
                 $row, array_flip($this->publicData));
 
-            $modelObject->data
-                = json_decode(json_encode($rootData));
+            $private = array_diff_key(
+                $row, array_flip($this->publicData));
+
+            $modelObject = new $this->model($public, $private);
 
             foreach ($this->relationships as $relationship)
             {
