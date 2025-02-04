@@ -51,13 +51,13 @@ trait Relationships
                             ->where($leftFkName, $leftFk)
                             ->get();
 
-        $query = $target::query();
-
-        foreach ($pivot->models as $row)
+        $fks = array_map(function ($row) use ($rightFkName)
         {
-            $query->where("id", $row->data->$rightFkName);
-        }
+            return $row->$rightFkName;
+        }, $pivot->models);
 
-        return $query->toRelationshipQuery(Relationship::MANY_TO_MANY);
+        return $target::query()
+                      ->whereIn("id", $fks)
+                      ->toRelationshipQuery(Relationship::MANY_TO_MANY);
     }
 }
