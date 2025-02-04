@@ -53,7 +53,7 @@ trait Relationships
 
         $query = $target::query();
 
-        foreach ($pivot as $row)
+        foreach ($pivot->models as $row)
         {
             $query->where("id", $row->data->$rightFkName);
         }

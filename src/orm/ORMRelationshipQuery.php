@@ -2,10 +2,10 @@
 
 namespace Sherpa\Trail\orm;
 
-use Sherpa\Core\exceptions\database\InvalidRelationshipException;
 use Sherpa\Core\models\Model;
 use Sherpa\Db\database\DB;
 use Sherpa\Db\database\Query;
+use Sherpa\Exceptions\exceptions\database\orm\InvalidRelationshipException;
 
 /**
  * ORM Query main class.
@@ -56,7 +56,7 @@ class ORMRelationshipQuery extends ORMQuery
             Relationship::MANY_TO_MANY => array_map(function ($row)
                 {
                     return $row->data;
-                }, $result),
+                }, $result->models),
 
             default => throw new InvalidRelationshipException(
                 $this->relationship),
