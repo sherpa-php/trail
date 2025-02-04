@@ -10,6 +10,10 @@ class Collection
     {
         $this->models = $models;
     }
+
+    /**
+     * @return mixed First collection's model instance
+     */
     public function first(): mixed
     {
         return count($this->models)
