@@ -14,7 +14,6 @@
         }
     ],
     "require": {
-        "sherpa/db": "dev-dev",
-        "sherpa/exceptions": "dev-dev"
+        "sherpa/db": "dev-dev"
     }
 }
