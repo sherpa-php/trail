@@ -183,7 +183,7 @@ class ORMQuery extends Query
         return $relQuery;
     }
 
-    public function create(array $data): ?object
+    public function create(array $data): mixed
     {
         $columns = array_keys($data);
         $placeholders = array_fill(0, count($columns), '?');
